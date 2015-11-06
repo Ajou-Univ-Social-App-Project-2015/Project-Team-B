@@ -19,11 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginTest"
-            android:label="@string/title_activity_login_test" >
-        </activity>
-        <activity
-            android:name=".SignUp"
+            android:name=".Activity.SignUp"
             android:label="@string/title_activity_sign_up" >
         </activity>
         <activity

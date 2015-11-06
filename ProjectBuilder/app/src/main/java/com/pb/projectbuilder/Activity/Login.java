@@ -14,9 +14,7 @@ import android.widget.TextView;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.pb.projectbuilder.HttpClient;
-import com.pb.projectbuilder.LoginTest;
 import com.pb.projectbuilder.R;
-import com.pb.projectbuilder.SignUp;
 
 import org.apache.http.Header;
 
@@ -59,7 +57,7 @@ public class Login extends Activity {
                                                  Log.d(TAG, "Http GET Success " + res);
 
                                                  if (res.equals("success")) {
-                                                     Intent intent = new Intent(Login.this, LoginTest.class);
+                                                     Intent intent = new Intent(Login.this, ProjectList.class);
                                                      startActivity(intent);
 
 
