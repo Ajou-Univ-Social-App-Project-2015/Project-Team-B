@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ProjectBuilder</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login_test">LoginTest</string>
+    <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_activity_project_list">ProjectList</string>
+</resources>
