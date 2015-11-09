@@ -11,9 +11,8 @@ import org.apache.http.HttpEntity;
  */
 public class HttpClient {
 
-   private static final String BASE_URL = "http://192.168.0.83:8080/PBSERVER/pb?cmd=";  //집
-   // private static final String BASE_URL = "http://172.30.13.230:4448";  //집
-
+//   private static final String BASE_URL = "http://192.168.0.83:8080/ProjectBuilderServer/pb?cmd=";  //집
+    private static final String BASE_URL = "http://192.168.0.133:8080/ProjectBuilderServer/pb?cmd=";
 
 
     private static AsyncHttpClient client = new AsyncHttpClient();

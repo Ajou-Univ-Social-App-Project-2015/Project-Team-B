@@ -53,9 +53,6 @@ public class SignUp extends AppCompatActivity {
 
                 final String pass1 = passwd.getText().toString();
 
-                if (!isValidPassword(pass1)) {
-                    passwd.setError("6자 이상으로 입력하세요");
-
                     RequestParams params = new RequestParams();
                     params.put("email", email.getText().toString().trim());
                     params.put("passwd", passwd.getText().toString().trim());
@@ -75,17 +72,8 @@ public class SignUp extends AppCompatActivity {
 
                         }
                     });
-
-
-
-
-
-
                 }
 
-
-
-            }
         });
     }
 
