@@ -2,11 +2,14 @@ package com.pb.projectbuilder.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,17 +30,19 @@ public class Login extends Activity {
     TextView rep;
     String TAG = "Log";
 
+    private static final String TYPEFACE_NAME = "YoonGothic-720.ttf";
+    private Typeface typeface = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        //loadTypeface();
         setContentView(R.layout.activity_main);
         email = (EditText) findViewById(R.id.email);
         passwd = (EditText) findViewById(R.id.passwd);
-        test = (TextView) findViewById(R.id.testtext);
-        rep = (TextView) findViewById(R.id.rep);
+
 
         login = (Button) findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener() {
@@ -72,9 +77,7 @@ public class Login extends Activity {
                                      }
                                  }
             );
-            signup=(Button)
-
-            findViewById(R.id.signup);
+            signup=(Button) findViewById(R.id.signup);
 
             signup.setOnClickListener(new View.OnClickListener()
 
@@ -90,6 +93,31 @@ public class Login extends Activity {
 
 
         }
+
+
+    private void loadTypeface(){
+        if(typeface==null)
+            try {
+                typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
+            }catch (Exception e){
+
+            }
+    }
+
+    @Override
+    public void setContentView(int viewId) {
+        View view = LayoutInflater.from(this).inflate(viewId, null);
+        ViewGroup group = (ViewGroup)view;
+        int childCnt = group.getChildCount();
+        for(int i=0; i<childCnt; i++){
+            View v = group.getChildAt(i);
+            if(v instanceof TextView){
+                ((TextView)v).setTypeface(typeface);
+            }
+        }
+        super.setContentView(view);
+    }
+
 
 
         @Override

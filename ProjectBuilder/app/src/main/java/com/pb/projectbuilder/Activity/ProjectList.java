@@ -2,6 +2,7 @@ package com.pb.projectbuilder.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,7 @@ public class ProjectList extends AppCompatActivity {
     //ListView 참조변수
     ListView listView;
     Intent intent;
-    Button btnAdd;
+    FloatingActionButton btnAdd;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class ProjectList extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(adapter);
 
-        btnAdd = (Button) findViewById(R.id.addBtn);
+        FloatingActionButton btnAdd = (FloatingActionButton) findViewById(R.id.addBtn);
 
           /* 추가 버튼 */
         btnAdd.setOnClickListener(new View.OnClickListener() {
