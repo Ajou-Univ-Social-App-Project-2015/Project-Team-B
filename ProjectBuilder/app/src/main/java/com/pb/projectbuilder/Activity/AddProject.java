@@ -1,43 +1,57 @@
 package com.pb.projectbuilder.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.pb.projectbuilder.Connecter.HttpClient;
 import com.pb.projectbuilder.R;
+
+import org.apache.http.Header;
 
 /**
  * Created by sanghee on 2015-11-07.
  */
 public class AddProject extends AppCompatActivity {
-    Intent intent;
     Button btnSave;
-    EditText editText1;
-    EditText editText2;
+    EditText p_name;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_project);
+        setContentView(R.layout.activity_addproject);
 
-        intent=getIntent();
         btnSave=(Button) findViewById(R.id.add_todo_button);
-        editText1=(EditText) findViewById(R.id.add_pj_name);
-        editText2 = (EditText) findViewById(R.id.add_pj_date);
+        p_name=(EditText) findViewById(R.id.add_pj_name);
 
         /* 저장 버튼 */
         btnSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (editText1.getText().toString().equals("")) {
+                if (p_name.getText().toString().equals("")) {
                     Toast.makeText(AddProject.this, "please input!!", Toast.LENGTH_SHORT).show();
-                } else {
-                    intent.putExtra("pjname", editText1.getText().toString());
-                    intent.putExtra("pjdate", editText2.getText().toString());
-                    setResult(RESULT_OK, intent);
+                } else{
+                    RequestParams params = new RequestParams();
+                    params.put("p_name", p_name.getText().toString().trim());
+
+
+                    HttpClient.post("addproject", params, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                            Log.d("AddProject", "Http POST Success ");
+                        }
+
+                        @Override
+                        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                            Log.d("AddProject", "Http POST Fail ");
+
+                        }
+                    });
                     finish();
                 }
             }

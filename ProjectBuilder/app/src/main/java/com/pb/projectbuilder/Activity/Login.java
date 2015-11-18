@@ -14,9 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
-import com.pb.projectbuilder.HttpClient;
+import com.pb.projectbuilder.Connecter.HttpClient;
 import com.pb.projectbuilder.R;
 
 import org.apache.http.Header;
@@ -26,11 +28,9 @@ public class Login extends Activity {
     EditText passwd;
     Button login;
     Button signup;
-    TextView test;
-    TextView rep;
     String TAG = "Log";
 
-    private static final String TYPEFACE_NAME = "YoonGothic-720.ttf";
+    private static final String TYPEFACE_NAME = "NanumGothicLight.otf"; //"YoonGothic-720.ttf";
     private Typeface typeface = null;
 
 
@@ -39,9 +39,12 @@ public class Login extends Activity {
         super.onCreate(savedInstanceState);
 
         //loadTypeface();
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         email = (EditText) findViewById(R.id.email);
         passwd = (EditText) findViewById(R.id.passwd);
+        AsyncHttpClient client = new AsyncHttpClient();
+        PersistentCookieStore cookieStore = new PersistentCookieStore(this);
+        client.setCookieStore(cookieStore);
 
 
         login = (Button) findViewById(R.id.login);
@@ -54,6 +57,8 @@ public class Login extends Activity {
                                          params.put("email", email.getText().toString().trim());
                                          params.put("passwd", passwd.getText().toString().trim());
 
+                                         Intent intent = new Intent(Login.this, ProjectList.class); //테스트용으로 바로 로그인하기
+                                         startActivity(intent);
 
                                          HttpClient.post("login", params, new AsyncHttpResponseHandler() {
                                              @Override
@@ -61,9 +66,11 @@ public class Login extends Activity {
                                                  String res = new String(bytes);
                                                  Log.d(TAG, "Http GET Success " + res);
 
+
                                                  if (res.equals("success")) {
                                                      Intent intent = new Intent(Login.this, ProjectList.class);
                                                      startActivity(intent);
+                                                    // finish();
 
 
                                                  }

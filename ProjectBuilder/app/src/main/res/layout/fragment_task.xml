@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.pb.projectbuilder.Fragment.TaskFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <include layout="@layout/content_tasklist" />
+
+    <ImageButton android:id="@+id/tfab"
+        android:layout_width="130px" android:layout_height="130px"
+        android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"
+        android:background="@drawable/click_add_button"
+        android:clickable="true" />
+
+</FrameLayout>

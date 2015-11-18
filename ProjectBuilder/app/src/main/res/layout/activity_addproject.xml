@@ -23,12 +23,6 @@
         android:paddingBottom="10dp"/>
 
 
-    <EditText android:id="@+id/add_pj_date"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="프로젝트 기한"
-        android:paddingBottom="10dp"/>
-
 
     <Button android:id="@+id/add_todo_button"
         android:layout_marginTop="30dp"

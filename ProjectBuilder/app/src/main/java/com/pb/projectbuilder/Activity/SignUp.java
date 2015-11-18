@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.pb.projectbuilder.HttpClient;
+import com.pb.projectbuilder.Connecter.HttpClient;
 import com.pb.projectbuilder.R;
 
 import org.apache.http.Header;
@@ -30,7 +30,7 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_up);
+        setContentView(R.layout.activity_signup);
 
         //email confirm
         email = (EditText) findViewById(R.id.input_email);

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splashLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/colorPrimary"
+    android:onClick="hn_splashOnclick"
+    tools:context="com.pb.projectbuilder.Activity.Splash"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="68dp"
+        android:layout_height="150dp"
+        android:id="@+id/main_logo"
+        android:src="@drawable/title"
+        android:layout_weight="0.19"
+        android:layout_gravity="center_vertical" />
+
+</LinearLayout>
