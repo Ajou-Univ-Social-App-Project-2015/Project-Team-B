@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <ToggleButton
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="진행중"
+        android:textOff="진행중"
+        android:textOn="진행중"
         android:textColor="#ffffff"
         android:textSize="50px"
         android:background="@color/colorlistbar"
@@ -16,13 +17,14 @@
         android:layout_height="wrap_content"
         />
 
-    <TextView
+    <ToggleButton
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:textColor="#ffffff"
         android:textSize="50px"
-        android:text="완료"
+        android:textOff="완료"
+        android:textOn="완료"
         android:id="@+id/worked"/>
     <ListView
         android:id="@+id/workedlist"

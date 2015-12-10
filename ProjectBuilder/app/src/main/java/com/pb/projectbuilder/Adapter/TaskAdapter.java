@@ -36,7 +36,9 @@ public class TaskAdapter  extends BaseAdapter implements ListAdapter {
         this.activity = activity;
     }
 
-
+    public void setJsonArray(JSONArray arr){
+        this.jsonArray = arr;
+    }
 
     @Override public int getCount() {
         if(null==jsonArray)

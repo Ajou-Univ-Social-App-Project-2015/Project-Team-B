@@ -78,6 +78,7 @@ public class ProjectList extends AppCompatActivity
                     @Override
                     public void onSuccess(int i, Header[] headers, byte[] bytes) {
                         Intent intent = new Intent(ProjectList.this, ProjectMain.class);
+                        intent.putExtra("p_name", bytes.toString());
                         startActivity(intent);
                     }
 

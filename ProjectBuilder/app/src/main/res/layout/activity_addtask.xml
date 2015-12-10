@@ -11,14 +11,22 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:hint="작업 이름"
         android:id="@+id/taskname"/>
 
 
     <EditText
         android:layout_width="fill_parent"
+        android:hint="작업 내"
         android:layout_height="wrap_content"
         android:id="@+id/desc"/>
 
+    <DatePicker
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/due_date">
+
+    </DatePicker>
 
 
     <Button
