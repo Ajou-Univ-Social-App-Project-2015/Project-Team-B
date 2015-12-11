@@ -16,12 +16,15 @@ import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.pb.projectbuilder.Connecter.HttpClient;
 import com.pb.projectbuilder.R;
 
 import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Login extends Activity {
     EditText email;
@@ -60,28 +63,29 @@ public class Login extends Activity {
                                         // Intent intent = new Intent(Login.this, ProjectList.class); //테스트용으로 바로 로그인하기
                                         // startActivity(intent);
 
-                                         HttpClient.post("login", params, new AsyncHttpResponseHandler() {
+                                         HttpClient.post("login", params, new JsonHttpResponseHandler() {
                                              @Override
-                                             public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                                                 String res = new String(bytes);
-                                                 Log.d(TAG, "Http GET Success " + res);
+                                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                                 super.onSuccess(statusCode, headers, response);
+                                                 JSONObject obj = response;
+                                                 try {
+                                                     String login = obj.getString("login");
+                                                     if(login.equals("success")){
+                                                         String m_name = obj.getString("name");
+                                                         Intent intent = new Intent(Login.this, ProjectList.class);
+                                                         intent.putExtra("email", email.getText().toString());
+                                                         intent.putExtra("m_name", m_name);
+                                                         startActivity(intent);
 
+                                                     }
+                                                     else if(login.equals("fail")){
 
-                                                 if (res.equals("success")) {
-                                                     Intent intent = new Intent(Login.this, ProjectList.class);
-                                                     intent.putExtra("email", email.getText().toString());
-                                                     startActivity(intent);
-                                                    // finish();
-                                                 }
-                                                 else{
-
+                                                     }
+                                                 } catch (JSONException e) {
+                                                     e.printStackTrace();
                                                  }
                                              }
 
-                                             @Override
-                                             public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-
-                                             }
                                          });
                                      }
                                  }

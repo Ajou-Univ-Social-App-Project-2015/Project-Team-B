@@ -14,8 +14,12 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.pb.projectbuilder.Connecter.HttpClient;
 import com.pb.projectbuilder.R;
+import com.pb.projectbuilder.model.Task;
 
 import org.apache.http.Header;
+
+import java.io.Serializable;
+import java.sql.Date;
 
 public class AddTask extends AppCompatActivity {
 
@@ -38,15 +42,20 @@ public class AddTask extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Task task = new Task();
+                task.setT_name(t_name.getText().toString());
+                task.setDescript(descript.getText().toString().trim());
+                task.setDue_date(datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth());
+
                 RequestParams params = new RequestParams();
-                params.put("t_name", t_name.getText().toString().trim());
-                params.put("passwd", descript.getText().toString().trim());
-                params.put("due_date", datePicker.getYear()+"-"+(datePicker.getMonth()+1)+"-"+datePicker.getDayOfMonth());
+                params.put("t_name", task.getT_name());
+                params.put("descript", task.getDescript());
+                params.put("due_date", task.getDue_date());
 
                 HttpClient.get("addtask", params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                            finish();
+                        finish();
                     }
 
                     @Override
@@ -54,6 +63,9 @@ public class AddTask extends AppCompatActivity {
 
                     }
                 });
+                Intent intent = new Intent(AddTask.this, ProjectMain.class);
+                intent.putExtra("task", task);
+
             }
         });
 

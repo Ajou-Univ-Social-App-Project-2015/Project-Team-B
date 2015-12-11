@@ -97,6 +97,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="support-annotations-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="pagerslidingtabstrip-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="gcm" level="project" />
     <orderEntry type="library" exported="" name="design-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="RapidFloatingActionButton-1.0.3" level="project" />
     <orderEntry type="library" exported="" name="ActionBar-PullToRefresh" level="project" />
@@ -107,7 +108,7 @@
     <orderEntry type="library" exported="" name="httpcore-4.4.3" level="project" />
     <orderEntry type="library" exported="" name="android-pull-to-refresh-master" level="project" />
     <orderEntry type="library" exported="" name="json-simple-1.1.1" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-23.1.0" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-23.1.0" level="project" />
   </component>
 </module>

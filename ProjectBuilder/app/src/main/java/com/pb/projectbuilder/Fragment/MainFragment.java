@@ -1,16 +1,30 @@
 package com.pb.projectbuilder.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.pb.projectbuilder.Activity.ProjectList;
+import com.pb.projectbuilder.Adapter.NoticeAdapter;
+import com.pb.projectbuilder.Adapter.ProjectAdapter;
 import com.pb.projectbuilder.Adapter.TestAdapter;
+import com.pb.projectbuilder.Connecter.HttpClient;
 import com.pb.projectbuilder.R;
 import com.pb.projectbuilder.View.CalendarView;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,12 +41,29 @@ public class MainFragment extends Fragment implements CalendarView.RobotoCalenda
     private int currentMonthIndex ;
     private Calendar currentCalendar;
 
-    private ListView noticeList;
-    private TestAdapter workingAdapter;
+    NoticeAdapter adapter;
+    ListView listView;
+    JSONArray arr;
+    int n_num;
+
 
     ArrayList<String> test ;
 
     Intent intent;
+
+    public void init() {
+        HttpClient.get("noticelist", null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+
+                adapter.setJsonArray(response);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
+    }
 
     public static MainFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -48,12 +79,18 @@ public class MainFragment extends Fragment implements CalendarView.RobotoCalenda
         mPage = getArguments().getInt(ARG_PAGE);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
+    }
+
     // Inflate the fragment layout we defined above for this fragment
     // Set the associated text for the title
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-
+        init();
         calendarView = (CalendarView)view.findViewById(R.id.robotoCalendarPicker);
         // calendarView = new CalendarView(getContext());
         calendarView.setRobotoCalendarListener(this);
@@ -65,14 +102,66 @@ public class MainFragment extends Fragment implements CalendarView.RobotoCalenda
         // Mark current day
         calendarView.markDayAsCurrentDay(currentCalendar.getTime());
 
-        test = new ArrayList<String>();
-        test.add("test1");
-        test.add("test2");
-        test.add("test3");
-        workingAdapter = new TestAdapter(inflater, test);;
 
-        noticeList = (ListView) view.findViewById(R.id.noticelist);
-        noticeList.setAdapter(workingAdapter);
+
+        listView = (ListView) view.findViewById(R.id.noticelist);
+        adapter = new NoticeAdapter(getActivity(), arr);
+        listView.setAdapter(adapter);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                try {
+                    n_num = adapter.getjsonArray().getJSONObject(position).getInt("n_num");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                AlertDialog.Builder adbb = new AlertDialog.Builder(getContext());
+                // adbb.setTitle("Hi");
+                adbb.setMessage("Are you want to delete notice?");
+                adbb.setCancelable(false);
+                String yesButtonText = "Yes";
+                String noButtonText = "No";
+
+                adbb.setPositiveButton(yesButtonText, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //여기에 Main notice list에다 추가하는 코드 작성 하기!!!!
+                        //title내용을 notice해야 함
+                        //intent.putExtra("content",title.getText().toString());
+                        // ((Activity) context).setResult(((Activity) context).RESULT_OK, intent);
+                        //((Activity) context).finish();
+                        RequestParams params = new RequestParams();
+                        params.put("n_num", n_num);
+                        HttpClient.get("deletenotice", params, new AsyncHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+
+                            }
+
+                            @Override
+                            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                            }
+                        });
+
+                        adapter.deleteItem(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+                adbb.setNegativeButton(noButtonText, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                adbb.show();
+
+                return true;
+            }
+        });
+
 
 
 
@@ -123,7 +212,7 @@ public class MainFragment extends Fragment implements CalendarView.RobotoCalenda
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         test.add(data.getStringExtra("content").toString());
-        workingAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
         super.onActivityResult(requestCode, resultCode, data);
     }
 

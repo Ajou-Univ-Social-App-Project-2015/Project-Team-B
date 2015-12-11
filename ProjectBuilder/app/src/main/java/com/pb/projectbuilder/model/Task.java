@@ -1,14 +1,15 @@
 package com.pb.projectbuilder.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Created by jongchan on 15. 11. 18..
  */
-public class Task {
+public class Task implements Serializable {
     private int t_num;
     private String t_name;
-    private Date due_date;
+    private String due_date;
     private String descript;
     private int finish;
 
@@ -27,11 +28,11 @@ public class Task {
         this.t_name = t_name;
     }
 
-    public Date getDue_date() {
+    public String getDue_date() {
         return due_date;
     }
 
-    public void setDue_date(Date due_date) {
+    public void setDue_date(String due_date) {
         this.due_date = due_date;
     }
 

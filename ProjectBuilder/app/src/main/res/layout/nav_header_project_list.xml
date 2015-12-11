@@ -10,7 +10,7 @@
     android:gravity="bottom">
 
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="Notification"
+        android:text="My Task"
         android:textSize="20dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

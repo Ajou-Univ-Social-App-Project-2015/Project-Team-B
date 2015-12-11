@@ -5,23 +5,37 @@ package com.pb.projectbuilder.model;
  */
 public class RecyclerCard {
     String title;
-    String email;
+    String m_name;
+    int b_num;
 
 
     public RecyclerCard() {
     }
 
-    public RecyclerCard(String email, String title) {
-        this.email = email;
+    public RecyclerCard(String m_name, String title, int b_num) {
+        this.m_name = m_name;
+        this.title = title;
+        this.b_num = b_num;
+    }
+
+    public int getB_num() {
+        return b_num;
+    }
+
+    public void setB_num(int b_num) {
+        this.b_num = b_num;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getEmail() {
-        return email;
+    public String getm_name() {
+        return m_name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setm_name(String m_name) {
+        this.m_name = m_name;
     }
 
     public   String getTitle(){

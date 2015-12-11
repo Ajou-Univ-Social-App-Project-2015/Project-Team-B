@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -41,6 +42,12 @@ public class ProjectList extends AppCompatActivity
     ListView listView;
     int p_num = 0;
     String p_name="";
+    String m_name="";
+
+    JSONArray taskArr;
+    ListView myTaskList;
+    TaskAdapter myTaskAdapter;
+
 
     public void init() {
         HttpClient.get("projectlist", null, new JsonHttpResponseHandler() {
@@ -50,6 +57,15 @@ public class ProjectList extends AppCompatActivity
 
                 adapter.setJsonArray(response);
                 adapter.notifyDataSetChanged();
+            }
+        });
+        HttpClient.get("mytask", null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+
+                myTaskAdapter.setJsonArray(response);
+                myTaskAdapter.notifyDataSetChanged();
             }
         });
 
@@ -67,12 +83,15 @@ public class ProjectList extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.l_toolbar);
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
-        getSupportActionBar().setTitle(intent.getExtras().getString("email"));
-
+        m_name = intent.getExtras().getString("m_name");
+        getSupportActionBar().setTitle(m_name);
+        myTaskList = (ListView) findViewById(R.id.my_task_list);
+        myTaskAdapter = new TaskAdapter(this,  taskArr);
         //리스트뷰 생성
-        adapter = new ProjectAdapter(ProjectList.this, arr);
+
 
         listView = (ListView) findViewById(R.id.listview);
+        adapter = new ProjectAdapter(ProjectList.this, arr);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                             @Override
@@ -105,6 +124,7 @@ public class ProjectList extends AppCompatActivity
                                                 Intent intent = new Intent(ProjectList.this, ProjectMain.class);
                                                 intent.putExtra("p_num", p_num);
                                                 intent.putExtra("p_name",p_name);
+                                                intent.putExtra("m_name", m_name);
                                                 startActivity(intent);
 
                                             }
@@ -138,6 +158,9 @@ public class ProjectList extends AppCompatActivity
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+
+
+
 
 
 }

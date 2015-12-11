@@ -36,6 +36,7 @@ public class ProjectMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private int p_num;
+    String m_name = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,7 @@ public class ProjectMain extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.m_toolbar);
         Intent intent = getIntent();
         p_num = intent.getExtras().getInt("p_num");
+        m_name = intent.getExtras().getString("m_name");
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new ProjectFragmentPagerAdapter(getSupportFragmentManager()));
 

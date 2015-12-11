@@ -1,6 +1,7 @@
 package com.pb.projectbuilder.Fragment;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -47,8 +48,9 @@ public class BoardFragment extends Fragment {
     EditText editComment;
     String descrip = "";
     View dialogView;
-    android.os.Handler dialogHandler;
+   android.os.Handler dialogHandler;
     JSONArray jsonArray;
+    int b_num;
     private int mPage;
 
     public static BoardFragment newInstance(int page) {
@@ -66,19 +68,29 @@ public class BoardFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
-                recyclerAdapter.setJsonArray(response);
-                recyclerAdapter.notifyDataSetChanged();
+                try {
+                    ArrayList<RecyclerCard> items = new ArrayList<RecyclerCard>();
+                    recyclerAdapter.setItems(items);
+                    recyclerAdapter.setJsonArray(response);
+                    recyclerAdapter.notifyDataSetChanged();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    public void requestCommentlist() {
+    public void requestCommentlist(int b_num) {
         RequestParams params = new RequestParams();
+        params.put("b_num", b_num);
 
         HttpClient.get("commentlist", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
+
+                commentadapter.setJsonArray(response);
+                commentadapter.notifyDataSetChanged();
             }
         });
     }
@@ -103,9 +115,10 @@ public class BoardFragment extends Fragment {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
+
                         LayoutInflater inflater = LayoutInflater.from(getActivity());
                         dialogView = inflater.inflate(R.layout.comment_dialog, null);
-
+                        b_num = msg.getData().getInt("b_num");
                         //Dialog 생성 및 보이기
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());//AlertDialog.Builder 객체 생성
                         builder.setTitle("comments"); //Dialog 제목
@@ -113,7 +126,7 @@ public class BoardFragment extends Fragment {
 
                         //prepare ListView in dialog
 
-                        requestCommentlist();
+                        requestCommentlist(b_num);
                         dialog_ListView = (ListView) dialogView.findViewById(R.id.listview);
                         dialog_ListView.setAdapter(commentadapter);
                         btnAddComment = (Button) dialogView.findViewById(R.id.comment_btn);
@@ -125,7 +138,7 @@ public class BoardFragment extends Fragment {
                                 descrip = editComment.getText().toString();
                                 RequestParams params = new RequestParams();
                                 params.put("content", descrip);
-
+                                params.put("b_num", b_num);
                                 HttpClient.get("addcomment", params, new JsonHttpResponseHandler() {
                                     @Override
                                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -152,11 +165,15 @@ public class BoardFragment extends Fragment {
 
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerAdapter = new RecyclerAdapter(dialogHandler, getContext(), items);
+        recyclerView.setAdapter(recyclerAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
+
+
 
         etDescription = (EditText) view.findViewById(R.id.descrip);
         btnAddCard = (Button) view.findViewById(R.id.button);
@@ -165,7 +182,7 @@ public class BoardFragment extends Fragment {
             public void onClick(View v) {
                 description = etDescription.getText().toString();
                 RequestParams params = new RequestParams();
-                params.put("content", descrip);
+                params.put("content", description);
 
                 HttpClient.get("addboard", params, new JsonHttpResponseHandler() {
                     @Override
@@ -173,11 +190,13 @@ public class BoardFragment extends Fragment {
                         super.onSuccess(statusCode, headers, response);
                     }
                 });
-
-                    RecyclerCard mLog = new RecyclerCard(description);
-                    items.add(mLog);
-                    etDescription.setText("");
-                    recyclerView.setAdapter(new RecyclerAdapter(dialogHandler, getContext(), items));
+                Intent intent = getActivity().getIntent();
+                    String m_name = intent.getExtras().getString("m_name");
+                    RecyclerCard mLog = new RecyclerCard(m_name, description, 0);
+                   // items.add(mLog);
+                etDescription.setText("");
+                recyclerAdapter.setData(mLog);
+                recyclerAdapter.notifyDataSetChanged();
 
 
             }

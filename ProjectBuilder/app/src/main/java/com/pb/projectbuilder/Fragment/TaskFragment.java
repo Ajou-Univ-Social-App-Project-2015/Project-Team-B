@@ -46,7 +46,15 @@ public class TaskFragment extends Fragment {
     private int t_num = 0;
     private String t_name = "";
     private int finish;
+    private int mPage;
 
+    public static TaskFragment newInstance(int page) {
+        Bundle args = new Bundle();
+        args.putInt(ARG_PAGE, page);
+        TaskFragment fragment = new TaskFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public void init(){
         HttpClient.get("workinglist", null, new JsonHttpResponseHandler() {
@@ -73,18 +81,19 @@ public class TaskFragment extends Fragment {
 
     }
 
-    public static TaskFragment newInstance(int page) {
-        Bundle args = new Bundle();
-        args.putInt(ARG_PAGE, page);
-        TaskFragment fragment = new TaskFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPage = getArguments().getInt(ARG_PAGE);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
     }
 
     // Inflate the fragment layout we defined above for this fragment
@@ -92,29 +101,24 @@ public class TaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(fragment_task, container, false);
+
         init();
-        //플로팅 버튼 세팅
-        ImageButton fab = (ImageButton) view.findViewById(R.id.tfab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddTask.class);
-                startActivity(intent);
-            }
 
-        });
-
-        ArrayList<String> test = new ArrayList<>();
-        test.add("test1");
         //작업중 리스트 생성
+        final ToggleButton working = (ToggleButton)view.findViewById(R.id.working);
+        working.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                init();
+                return false;
+            }
+        });
         workingList = (ListView) view.findViewById(R.id.workinglist);
         workingAdapter = new TaskAdapter(getActivity(), workingArr);
         workingList.setAdapter(workingAdapter);
         workingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
                 try {
                     t_num = workingAdapter.getJsonArray().getJSONObject(position).getInt("t_num");
                     t_name = workingAdapter.getJsonArray().getJSONObject(position).getString("t_name");
@@ -151,9 +155,6 @@ public class TaskFragment extends Fragment {
         });
 
 
-
-
-
         //완료 리스트인데 버튼을 눌러야 리스트를 가져와서 세팅함
         workedList = (ListView) view.findViewById(R.id.workedlist);
         workedAdapter = new TaskAdapter(getActivity(), workedArr);
@@ -168,6 +169,16 @@ public class TaskFragment extends Fragment {
                 } else {
                     workedList.setVisibility(View.INVISIBLE);
                 }
+            }
+
+        });
+        //플로팅 버튼 세팅
+        ImageButton fab = (ImageButton) view.findViewById(R.id.tfab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddTask.class);
+                startActivity(intent);
             }
 
         });
