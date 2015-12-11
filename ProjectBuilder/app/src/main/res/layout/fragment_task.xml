@@ -7,7 +7,7 @@
     <include layout="@layout/content_tasklist" />
 
     <ImageButton android:id="@+id/tfab"
-        android:layout_width="130px" android:layout_height="130px"
+        android:layout_width="50dp" android:layout_height="50dp"
         android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"
         android:background="@drawable/click_add_button"
         android:clickable="true" />

@@ -1,7 +1,9 @@
 package com.pb.projectbuilder.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -21,6 +23,10 @@ public class AddTask extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addtask);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.a_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Add Task");
+
 
         final EditText t_name = (EditText)findViewById(R.id.taskname);
         final EditText descript = (EditText)findViewById(R.id.desc);
@@ -35,9 +41,9 @@ public class AddTask extends AppCompatActivity {
                 RequestParams params = new RequestParams();
                 params.put("t_name", t_name.getText().toString().trim());
                 params.put("passwd", descript.getText().toString().trim());
-                params.put("due_date", datePicker.toString().trim());
+                params.put("due_date", datePicker.getYear()+"-"+(datePicker.getMonth()+1)+"-"+datePicker.getDayOfMonth());
 
-                HttpClient.get("aadtask", params, new AsyncHttpResponseHandler() {
+                HttpClient.get("addtask", params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int i, Header[] headers, byte[] bytes) {
                             finish();

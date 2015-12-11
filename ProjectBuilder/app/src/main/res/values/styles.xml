@@ -11,4 +11,24 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <style name="MonthTitle">
+        <item name="android:textSize">@dimen/roboto_calendar_date_title_font</item>
+        <item name="android:textColor">@color/roboto_calendar_date_title</item>
+
+    </style>
+
+    <style name="DayOfTheWeek">
+        <item name="android:textSize">@dimen/roboto_calendar_day_of_week_font</item>
+        <item name="android:textColor">@color/roboto_calendar_day_of_month</item>
+
+    </style>
+
+    <style name="DayOfTheMonth">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/roboto_calendar_day_of_month</item>
+
+    </style>
+
+
 </resources>

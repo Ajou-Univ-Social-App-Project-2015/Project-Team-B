@@ -13,7 +13,7 @@ import com.pb.projectbuilder.Fragment.TaskFragment;
  */
 public class ProjectFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 3;
-    private String tabTitles[] = new String[] { "Tab1", "Tab2", "Tab3" };
+    private String tabTitles[] = new String[] { "Main", "Task", "Board" };
 
     public ProjectFragmentPagerAdapter(FragmentManager fm) {
         super(fm);

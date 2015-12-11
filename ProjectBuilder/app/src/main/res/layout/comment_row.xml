@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="3dp"
+        android:paddingRight="10dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <ImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="desc"
+            android:layout_marginRight="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/default_profile_pic"/>
+
+        <TextView
+            android:id="@+id/member_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:text="sangheeYoon"
+            android:textSize="20sp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/profile_pic"
+            android:layout_toEndOf="@+id/profile_pic" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/member_name"
+            android:layout_below="@+id/member_name"
+            android:text="content blabla"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/member_name"
+            android:layout_alignBottom="@+id/member_name"
+            android:text="6 hours ago"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

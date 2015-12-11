@@ -54,7 +54,6 @@
             android:layout_height="fill_parent"
             android:textColor="#ffffff"
             android:inputType="textPassword"
-            android:ems="10"
             android:id="@+id/input_passwd"
 
             android:gravity="center" />
@@ -82,7 +81,6 @@
                 android:layout_height="fill_parent"
                 android:inputType="textPassword"
                 android:textColor="#ffffff"
-                android:ems="10"
                 android:id="@+id/confirm_passwd"
 
                 android:gravity="center" />
@@ -116,7 +114,6 @@
             android:layout_height="fill_parent"
             android:inputType="textPersonName"
             android:textColor="#ffffff"
-            android:ems="10"
             android:id="@+id/input_name"
             android:gravity="center" />
     </LinearLayout>

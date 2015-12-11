@@ -10,7 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.pb.projectbuilder.Activity.ProjectMain;
 import com.pb.projectbuilder.R;
 import com.pb.projectbuilder.model.Task;
 
@@ -27,6 +30,7 @@ public class TaskAdapter  extends BaseAdapter implements ListAdapter {
 
     private Activity activity;
     private JSONArray jsonArray;
+    private  ToggleButton finish;
 
     public TaskAdapter (Activity activity, JSONArray jsonArray) {
         assert activity != null;
@@ -36,8 +40,22 @@ public class TaskAdapter  extends BaseAdapter implements ListAdapter {
         this.activity = activity;
     }
 
+
+
+    public ToggleButton getFinish() {
+        return finish;
+    }
+
+    public void setFinish(ToggleButton finish) {
+        this.finish = finish;
+    }
+
     public void setJsonArray(JSONArray arr){
         this.jsonArray = arr;
+    }
+
+    public JSONArray getJsonArray () {
+        return jsonArray;
     }
 
     @Override public int getCount() {
@@ -59,7 +77,7 @@ public class TaskAdapter  extends BaseAdapter implements ListAdapter {
         return jsonObject.optLong("t_name");
     }
 
-    @Override public View getView(int position, View convertView, ViewGroup parent) {
+    @Override public View getView(final int position, View convertView, ViewGroup parent) {
 
 
         if (convertView == null)
@@ -69,6 +87,7 @@ public class TaskAdapter  extends BaseAdapter implements ListAdapter {
 
         JSONObject json_data = getItem(position);
         if(null!=json_data ){
+            //태스크 이름 설정
             String jj= null;
             try {
                 jj = json_data.getString("t_name");
@@ -76,8 +95,12 @@ public class TaskAdapter  extends BaseAdapter implements ListAdapter {
                 e.printStackTrace();
             }
             text.setText(jj);
+
+            //태스크 완료 버튼 설정
+
         }
 
         return convertView;
     }
+
 }

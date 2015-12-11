@@ -2,30 +2,27 @@ package com.pb.projectbuilder.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.pb.projectbuilder.Activity.AddTask;
-import com.pb.projectbuilder.Activity.ProjectList;
-import com.pb.projectbuilder.Activity.ProjectMain;
+import com.pb.projectbuilder.Activity.TaskInfo;
 import com.pb.projectbuilder.Adapter.TaskAdapter;
-import com.pb.projectbuilder.Adapter.TestAdapter;
 import com.pb.projectbuilder.Connecter.HttpClient;
 import com.pb.projectbuilder.R;
-import com.pb.projectbuilder.model.Task;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -41,12 +38,14 @@ public class TaskFragment extends Fragment {
     private TaskAdapter workingAdapter;
     private TaskAdapter workedAdapter;
 
-//    private TestAdapter workingAdapter;
-//    private TestAdapter workedAdapter;
-
-
     private JSONArray workingArr;
     private JSONArray workedArr;
+
+    private String descript;
+    private String due_date;
+    private int t_num = 0;
+    private String t_name = "";
+    private int finish;
 
 
     public void init(){
@@ -85,7 +84,7 @@ public class TaskFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+
     }
 
     // Inflate the fragment layout we defined above for this fragment
@@ -93,7 +92,7 @@ public class TaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(fragment_task, container, false);
-
+        init();
         //플로팅 버튼 세팅
         ImageButton fab = (ImageButton) view.findViewById(R.id.tfab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -111,24 +110,51 @@ public class TaskFragment extends Fragment {
         workingList = (ListView) view.findViewById(R.id.workinglist);
         workingAdapter = new TaskAdapter(getActivity(), workingArr);
         workingList.setAdapter(workingAdapter);
-        final ToggleButton working = (ToggleButton)view.findViewById(R.id.working);
-        working.setOnClickListener(new View.OnClickListener() {
+        workingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                if (working.isChecked()) {
-                    workingList.setVisibility(View.INVISIBLE);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                } else {
-                    workingList.setVisibility(View.VISIBLE);
+
+                try {
+                    t_num = workingAdapter.getJsonArray().getJSONObject(position).getInt("t_num");
+                    t_name = workingAdapter.getJsonArray().getJSONObject(position).getString("t_name");
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            }
+                RequestParams params = new RequestParams();
+                params.put("t_num", t_num);
 
+                HttpClient.get("selecttask", params, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        super.onSuccess(statusCode, headers, response);
+                        try {
+                            descript = response.getString("descript");
+                            due_date = response.getString("due_date");
+                            finish = response.getInt("finish");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Intent intent = new Intent(getContext(), TaskInfo.class);
+                        intent.putExtra("t_num", t_num);
+                        intent.putExtra("t_name", t_name);
+                        intent.putExtra("descript", descript);
+                        intent.putExtra("due_date", due_date);
+                        intent.putExtra("finish", finish);
+                        startActivity(intent);
+
+                    }
+                });
+
+
+            }
         });
 
 
 
 
-        //완료 리스트 생성
+
+        //완료 리스트인데 버튼을 눌러야 리스트를 가져와서 세팅함
         workedList = (ListView) view.findViewById(R.id.workedlist);
         workedAdapter = new TaskAdapter(getActivity(), workedArr);
         workedList.setAdapter(workedAdapter);

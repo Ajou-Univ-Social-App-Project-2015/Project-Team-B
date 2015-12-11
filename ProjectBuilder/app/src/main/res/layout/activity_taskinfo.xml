@@ -4,28 +4,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:fitsSystemWindows="true"
-    tools:context="com.pb.projectbuilder.Activity.ProjectList">
+    tools:context="com.pb.projectbuilder.Activity.TaskInfo">
 
     <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
         android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
 
-
-        <android.support.v7.widget.Toolbar android:id="@+id/l_toolbar"
+        <android.support.v7.widget.Toolbar android:id="@+id/t_toolbar"
             android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
+    <include layout="@layout/content_task_info" />
 
-    <include layout="@layout/content_project_list" />
-
-
-
-    <ImageButton android:id="@+id/fab"
-    android:layout_width="80dp" android:layout_height="80dp"
-    android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"
-    android:background="@drawable/click_add_button"
+    <!-- 사람 모양으로 바꾸자 -->
+    <ImageButton android:id="@+id/mab"
+        android:layout_width="50dp" android:layout_height="50dp"
+        android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"
+        android:background="@drawable/click_add_button"
         android:clickable="true" />
+
 
 
 </android.support.design.widget.CoordinatorLayout>

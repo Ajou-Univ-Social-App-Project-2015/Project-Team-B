@@ -4,4 +4,20 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorlistbar">#26369f</color>
+    <color name="colorcontent">#58bfff</color>
+
+
+    <!-- General -->
+    <color name="roboto_calendar_circle">#e6e7e8</color>
+    <color name="roboto_calendar_background">#FFFFFF</color>
+    <color name="roboto_calendar_green">#339DB5</color>
+    <color name="roboto_calendar_red">#e98885</color>
+    <color name="roboto_calendar_blue">#55c6da</color>
+    <color name="roboto_calendar_white">#FFFFFF</color>
+
+    <!-- Fonts -->
+    <color name="roboto_calendar_date_title">#2A99BC</color>
+    <color name="roboto_calendar_day_of_week">#161d20</color>
+    <color name="roboto_calendar_day_of_month">#849ba9</color>
+    <color name="roboto_calendar_current_day_of_month">#33b5e5</color>
 </resources>

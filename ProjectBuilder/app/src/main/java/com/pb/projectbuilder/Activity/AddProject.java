@@ -44,6 +44,7 @@ public class AddProject extends AppCompatActivity {
                         @Override
                         public void onSuccess(int i, Header[] headers, byte[] bytes) {
                             Log.d("AddProject", "Http POST Success ");
+                            finish();
                         }
 
                         @Override
@@ -52,7 +53,7 @@ public class AddProject extends AppCompatActivity {
 
                         }
                     });
-                    finish();
+
                 }
             }
         });

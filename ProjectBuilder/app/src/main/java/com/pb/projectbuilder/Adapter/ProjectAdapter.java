@@ -33,6 +33,10 @@ public class ProjectAdapter extends BaseAdapter implements ListAdapter {
         this.jsonArray = arr;
     }
 
+    public JSONArray getjsonArray(){
+        return jsonArray;
+    }
+
 
     @Override public int getCount() {
         if(null==jsonArray)

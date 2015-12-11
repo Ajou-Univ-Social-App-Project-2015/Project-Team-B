@@ -8,7 +8,6 @@ public class Project {
     private String name; //이름
 
 
-
     public Project(String s) {
         name = s;
     }

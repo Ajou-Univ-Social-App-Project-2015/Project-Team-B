@@ -23,7 +23,7 @@
 
         <ToggleButton
 
-            android:id="@+id/toggleButton01"
+            android:id="@+id/finish_button"
 
             android:layout_width="35dp"
 

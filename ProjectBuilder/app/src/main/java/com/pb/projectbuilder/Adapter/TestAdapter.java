@@ -52,7 +52,7 @@ public class TestAdapter extends BaseAdapter {
         TextView text = (TextView) convertView.findViewById(R.id.t_name);
         text.setText(datas.get(position));
 
-        final ToggleButton toggleButton = (ToggleButton) convertView.findViewById(R.id.toggleButton01);
+        final ToggleButton toggleButton = (ToggleButton) convertView.findViewById(R.id.finish_button);
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

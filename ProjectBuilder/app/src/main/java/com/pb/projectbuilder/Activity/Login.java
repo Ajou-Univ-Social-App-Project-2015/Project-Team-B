@@ -57,8 +57,8 @@ public class Login extends Activity {
                                          params.put("email", email.getText().toString().trim());
                                          params.put("passwd", passwd.getText().toString().trim());
 
-                                         Intent intent = new Intent(Login.this, ProjectList.class); //테스트용으로 바로 로그인하기
-                                         startActivity(intent);
+                                        // Intent intent = new Intent(Login.this, ProjectList.class); //테스트용으로 바로 로그인하기
+                                        // startActivity(intent);
 
                                          HttpClient.post("login", params, new AsyncHttpResponseHandler() {
                                              @Override
@@ -69,9 +69,11 @@ public class Login extends Activity {
 
                                                  if (res.equals("success")) {
                                                      Intent intent = new Intent(Login.this, ProjectList.class);
+                                                     intent.putExtra("email", email.getText().toString());
                                                      startActivity(intent);
                                                     // finish();
-
+                                                 }
+                                                 else{
 
                                                  }
                                              }

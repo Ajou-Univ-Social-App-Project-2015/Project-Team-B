@@ -19,13 +19,13 @@
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activity.SignUp"
-            android:label="@string/title_activity_sign_up" >
+            android:label="@string/title_activity_sign_up"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".Activity.AddProject" >
         </activity>
@@ -39,7 +39,13 @@
             android:label="@string/title_activity_project_main"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name=".Activity.AddTask" >
+        <activity android:name=".Activity.AddTask"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".Activity.TaskInfo"
+            android:label="@string/title_activity_task_info"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 

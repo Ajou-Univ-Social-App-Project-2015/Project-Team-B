@@ -28,18 +28,21 @@ import com.pb.projectbuilder.model.Project;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
 public class ProjectList extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener , AbsListView.OnScrollListener{
+        implements NavigationView.OnNavigationItemSelectedListener, AbsListView.OnScrollListener {
 
-    ArrayList<Project> datas = new ArrayList<>();
+
     JSONArray arr;
-   ProjectAdapter adapter;
+    ProjectAdapter adapter;
     ListView listView;
+    int p_num = 0;
+    String p_name="";
 
-    public void init(){
+    public void init() {
         HttpClient.get("projectlist", null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -61,62 +64,83 @@ public class ProjectList extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projectlist);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.l_toolbar);
         setSupportActionBar(toolbar);
+        Intent intent = getIntent();
+        getSupportActionBar().setTitle(intent.getExtras().getString("email"));
 
         //리스트뷰 생성
         adapter = new ProjectAdapter(ProjectList.this, arr);
 
-        listView = (ListView)findViewById(R.id.listview);
+        listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //해당 프로젝트의 이름을 서버로 보내 세션에 저장시키고 그 프로젝트 페이지로 이동
-                RequestParams params = new RequestParams();
-                params.put("p_name", datas.get(position).getName().toString().trim());
-                HttpClient.get("selectproject", params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                        Intent intent = new Intent(ProjectList.this, ProjectMain.class);
-                        intent.putExtra("p_name", bytes.toString());
-                        startActivity(intent);
-                    }
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //해당 프로젝트의 number을 서버로 보내 세션에 저장시키고 그 프로젝트 페이지로 이동
 
-                    @Override
-                    public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-
-                    }
-                });
-
-            }
-        });
+                                                RequestParams params = new RequestParams();
+                                                try {
+                                                    p_num = adapter.getjsonArray().getJSONObject(position).getInt("p_num");
+                                                    p_name = adapter.getjsonArray().getJSONObject(position).getString("p_name");
+                                                    params.put("p_num", p_num);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
 
 
-        //플로팅 버튼 세팅
-        ImageButton fab = (ImageButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent intent = new Intent(ProjectList.this, ProjectMain.class);
-                startActivity(intent);
 
-            }
+                                                HttpClient.get("selectproject", params, new AsyncHttpResponseHandler() {
+                                                    @Override
+                                                    public void onSuccess(int i, Header[] headers, byte[] bytes) {
 
-        });
-        //네비게이션 레이아웃 세팅
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+                                                    }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+                                                    @Override
+                                                    public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
 
+                                                    }
+                                                });
+
+                                                Intent intent = new Intent(ProjectList.this, ProjectMain.class);
+                                                intent.putExtra("p_num", p_num);
+                                                intent.putExtra("p_name",p_name);
+                                                startActivity(intent);
+
+                                            }
+                                        });
+
+
+
+
+    //플로팅 버튼 세팅
+    ImageButton fab = (ImageButton) findViewById(R.id.fab);
+    fab.setOnClickListener(new View.OnClickListener()
+
+    {
+        @Override
+        public void onClick (View v){
+
+        Intent intent = new Intent(ProjectList.this, AddProject.class);
+        startActivity(intent);
 
     }
 
+    }
+
+    );
+    //네비게이션 레이아웃 세팅
+    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+    drawer.setDrawerListener(toggle);
+    toggle.syncState();
+
+    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    navigationView.setNavigationItemSelectedListener(this);
+
+
+}
 
 
     @Override
@@ -130,46 +154,22 @@ public class ProjectList extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.project_list, menu);
-        return true;
+    protected void onResume() {
+        super.onResume();
+        init();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
+        //해야할 내업무 보여주기
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -7,7 +7,7 @@ import com.loopj.android.http.*;
  */
 public class HttpClient {
 
-      private static final String BASE_URL = "http://192.168.0.84:8080/ProjectBuilderServer/pb?cmd=";  //집 : 192.168.0.84
+      private static final String BASE_URL = "http://192.168.0.27:8080/ProjectBuilderServer/pb?cmd=";  //집 : 192.168.0.84
 
 
     private static AsyncHttpClient client = new AsyncHttpClient();

@@ -4,11 +4,11 @@
     android:layout_height="match_parent">
     <ToggleButton
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textOff="진행중"
-        android:textOn="진행중"
+        android:layout_height="25dp"
+        android:textOff="working"
+        android:textOn="working"
         android:textColor="#ffffff"
-        android:textSize="50px"
+        android:textSize="20dp"
         android:background="@color/colorlistbar"
         android:id="@+id/working" />
     <ListView
@@ -19,12 +19,12 @@
 
     <ToggleButton
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:background="@color/colorPrimaryDark"
         android:textColor="#ffffff"
-        android:textSize="50px"
-        android:textOff="완료"
-        android:textOn="완료"
+        android:textSize="20dp"
+        android:textOff="finished"
+        android:textOn="finished"
         android:id="@+id/worked"/>
     <ListView
         android:id="@+id/workedlist"
