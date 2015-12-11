@@ -75,6 +75,7 @@ public class TaskAdapter  extends BaseAdapter implements ListAdapter {
         JSONObject jsonObject = getItem(position);
 
         return jsonObject.optLong("t_name");
+
     }
 
     @Override public View getView(final int position, View convertView, ViewGroup parent) {

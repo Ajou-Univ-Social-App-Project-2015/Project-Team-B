@@ -48,6 +48,7 @@ public class BoardFragment extends Fragment {
     String descrip = "";
     View dialogView;
     android.os.Handler dialogHandler;
+    JSONArray jsonArray;
     private int mPage;
 
     public static BoardFragment newInstance(int page) {
@@ -95,7 +96,7 @@ public class BoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_board, container, false);
         commentdatas = new ArrayList<Comment>();
-        commentadapter = new CommentAdapter(inflater, commentdatas);
+        commentadapter = new CommentAdapter(getActivity(), jsonArray);
         requestBoardlist();
         dialogHandler = new Handler() {
             @Override
@@ -112,7 +113,7 @@ public class BoardFragment extends Fragment {
 
                         //prepare ListView in dialog
 
-
+                        requestCommentlist();
                         dialog_ListView = (ListView) dialogView.findViewById(R.id.listview);
                         dialog_ListView.setAdapter(commentadapter);
                         btnAddComment = (Button) dialogView.findViewById(R.id.comment_btn);
@@ -125,7 +126,7 @@ public class BoardFragment extends Fragment {
                                 RequestParams params = new RequestParams();
                                 params.put("content", descrip);
 
-                                HttpClient.get("addboard", params, new JsonHttpResponseHandler() {
+                                HttpClient.get("addcomment", params, new JsonHttpResponseHandler() {
                                     @Override
                                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                                         super.onSuccess(statusCode, headers, response);
@@ -163,15 +164,21 @@ public class BoardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 description = etDescription.getText().toString();
-                if (description.length() == 0) {
-                    description = "No Description!";
-                } else {
+                RequestParams params = new RequestParams();
+                params.put("content", descrip);
+
+                HttpClient.get("addboard", params, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                        super.onSuccess(statusCode, headers, response);
+                    }
+                });
 
                     RecyclerCard mLog = new RecyclerCard(description);
                     items.add(mLog);
                     etDescription.setText("");
                     recyclerView.setAdapter(new RecyclerAdapter(dialogHandler, getContext(), items));
-                }
+
 
             }
         });
