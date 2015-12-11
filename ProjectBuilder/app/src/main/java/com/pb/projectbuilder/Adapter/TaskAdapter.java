@@ -68,6 +68,7 @@ public class TaskAdapter  extends BaseAdapter implements ListAdapter {
     @Override public JSONObject getItem(int position) {
         if(null==jsonArray) return null;
         else
+
             return jsonArray.optJSONObject(position);
     }
 
